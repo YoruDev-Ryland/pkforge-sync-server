@@ -42,6 +42,11 @@ devices) are reported to the app, which asks you what to keep.
 > `docker exec pkforge-sync create-user you@example.com --admin`) before the server is reachable by anyone
 > else.
 
+### Keeping the data in a folder
+
+To keep the data in a host folder instead of a Docker volume, mount it at `/data`, for example
+`./data:/data`. The folder can be new or empty: the container creates and takes ownership of it on start.
+
 ## Updating
 
 ```sh
@@ -72,6 +77,7 @@ Set these as environment variables (all optional).
 | `ALLOW_REGISTRATION` | `false` | Let anyone with the address create an account (the first account always can); once an admin changes it on the web Bank's Account page, that choice wins |
 | `WEB_ROOT` | `wwwroot` beside the app | Folder with the built web app; set it only when running from source |
 | `DATA_DIR` | `/data` in the Docker image; `data` (relative to the working directory) otherwise | Where the SQLite database and Pokémon data live |
+| `PUID`, `PGID` | `1654` | Who owns the data folder and runs the server; set them to your user's ids to own the files on the host |
 | `DATABASE_PROVIDER` | `sqlite` | `sqlite` or `postgres` |
 | `DATABASE_CONNECTION` | SQLite file in `DATA_DIR` | Database connection string (required for PostgreSQL) |
 | `REQUIRE_EMAIL_VERIFICATION` | `false` | Block syncing until the account's email is confirmed |

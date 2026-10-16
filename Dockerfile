@@ -23,11 +23,12 @@ COPY --from=build /app .
 COPY --from=web /web/dist /app/wwwroot
 COPY LICENSE THIRD-PARTY-NOTICES.md /app/
 COPY docker/admin-command.sh /usr/local/bin/pkforge-sync-admin
-RUN chmod +x /usr/local/bin/pkforge-sync-admin \
+COPY docker/entrypoint.sh /usr/local/bin/pkforge-sync-entrypoint
+RUN chmod +x /usr/local/bin/pkforge-sync-admin /usr/local/bin/pkforge-sync-entrypoint \
  && for c in create-user reset-password list-users force-resync; do ln -s /usr/local/bin/pkforge-sync-admin /usr/local/bin/$c; done \
  && mkdir /data && chown app:app /data
 ENV DATA_DIR=/data ASPNETCORE_HTTP_PORTS=8080
 VOLUME /data
 EXPOSE 8080
-USER app
-ENTRYPOINT ["dotnet", "PKForge.Sync.Server.dll"]
+# Starts as root only to make /data usable, then runs as the app user (see docker/entrypoint.sh).
+ENTRYPOINT ["pkforge-sync-entrypoint", "dotnet", "PKForge.Sync.Server.dll"]
