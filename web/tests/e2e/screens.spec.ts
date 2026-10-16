@@ -46,6 +46,13 @@ for (const scheme of ['light', 'dark'] as const) {
         await shot(page, `signin-${tag}`);
       });
 
+      test('create an account', async ({ page }) => {
+        await page.goto('/signin');
+        await page.getByRole('button', { name: 'Create an account' }).click();
+        await expect(page.getByLabel('Confirm password')).toBeVisible();
+        await shot(page, `signup-${tag}`);
+      });
+
       for (const [id, label] of [['info', 'Info'], ['stats', 'Stats'], ['moves', 'Moves'], ['contest', 'Contest']] as const) {
         test(`bank, ${label} tab`, async ({ page }) => {
           await openBank(page, `shot-${id}`);

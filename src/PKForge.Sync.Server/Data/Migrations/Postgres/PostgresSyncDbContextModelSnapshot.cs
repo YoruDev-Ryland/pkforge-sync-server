@@ -267,6 +267,25 @@ namespace PKForge.Sync.Server.Data.Migrations.Postgres
                     b.ToTable("PairingCodes");
                 });
 
+            modelBuilder.Entity("PKForge.Sync.Server.Data.ServerSetting", b =>
+                {
+                    b.Property<string>("Key")
+                        .HasMaxLength(64)
+                        .HasColumnType("character varying(64)");
+
+                    b.Property<DateTime>("UpdatedUtc")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("Value")
+                        .IsRequired()
+                        .HasMaxLength(256)
+                        .HasColumnType("character varying(256)");
+
+                    b.HasKey("Key");
+
+                    b.ToTable("ServerSettings");
+                });
+
             modelBuilder.Entity("PKForge.Sync.Server.Data.AccountPreferences", b =>
                 {
                     b.HasOne("PKForge.Sync.Server.Data.Account", null)

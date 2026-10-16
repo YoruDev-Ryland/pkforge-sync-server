@@ -58,6 +58,28 @@ public sealed record DownloadBlobsResponse(IReadOnlyList<BlobData> Blobs);
 public sealed record WebSessionRequest(string? Email, string? Password, string? PairingCode, string DeviceName);
 public sealed record WebSessionResponse(Guid AccountId, Guid DeviceId, bool EmailVerified);
 
+/// <summary>GET /v1/account: the signed-in account.</summary>
+public sealed record AccountInfo(Guid Id, string Email, bool EmailVerified, bool IsAdmin);
+
+/// <summary>Server settings an admin can change. <see cref="AllowRegistration"/>: anyone may create an account.</summary>
+public sealed record AdminSettings(bool AllowRegistration);
+
+/// <summary>One account in the admin users list. <see cref="Mons"/> counts live Pokémon; <see cref="LastActiveUtc"/>
+/// is the latest sync of any of its devices.</summary>
+public sealed record AdminUser(
+    Guid Id, string Email, bool IsAdmin, bool EmailVerified, int Devices, int Mons,
+    DateTimeOffset CreatedUtc, DateTimeOffset? LastActiveUtc);
+/// <summary>Newest first, at most <see cref="Limit"/>; <see cref="Total"/> counts every account.</summary>
+public sealed record AdminUsersResponse(IReadOnlyList<AdminUser> Users, int Total, int Limit);
+public sealed record AdminCreateUserRequest(string Email, bool IsAdmin);
+/// <summary>The only copy of a server-generated password.</summary>
+public sealed record AdminCreateUserResponse(AdminUser User, string Password);
+public sealed record AdminResetPasswordRequest(bool SignOutDevices);
+public sealed record AdminPasswordResponse(string Password);
+public sealed record AdminSetRoleRequest(bool IsAdmin);
+/// <summary><see cref="Email"/> must be the account's email, as a confirmation.</summary>
+public sealed record AdminDeleteUserRequest(string Email);
+
 /// <summary>
 /// The web Bank's "Recently released": released Pokémon that can still be restored, newest first.
 /// <see cref="RetentionDays"/> 0 means releases are final (the list is always empty).

@@ -1,3 +1,4 @@
+import { admin } from './admin.svelte';
 import { api, ApiError, apiResponse, friendlyError, onApiError } from './api';
 import { Bank } from './bank.svelte';
 import { Connectivity } from './connectivity.svelte';
@@ -92,6 +93,7 @@ class App {
     this.bank.reset();
     details.clear();
     released.reset();
+    admin.reset();
     this.#net.reset();
     this.sync.readOnly = false;
     this.lastSynced = null;

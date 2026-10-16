@@ -35,4 +35,21 @@ public sealed class PostgresTests(PostgresFixture postgres) : IClassFixture<Post
         using var server = new SyncServerFactory();
         await Scenarios.FullRoundTripAsync(server);
     }
+
+    [Fact]
+    public async Task AdminToolsOnPostgres()
+    {
+        using var server = new SyncServerFactory();
+        server.Settings["Sync:DatabaseProvider"] = "postgres";
+        server.Settings["Sync:ConnectionString"] = postgres.NewDatabase();
+
+        await Scenarios.AdminToolsAsync(server);
+    }
+
+    [Fact]
+    public async Task AdminToolsOnSqlite()
+    {
+        using var server = new SyncServerFactory();
+        await Scenarios.AdminToolsAsync(server);
+    }
 }

@@ -10,6 +10,7 @@
   import { BOX_THEME, hueOf, THEMES, type Mode } from '../lib/theme';
   import { wallpaperOf } from '../lib/wallpapers';
   import { copyText, pairingLine } from '../lib/pairing';
+  import AdminSection from './AdminSection.svelte';
   import InfoTip from './InfoTip.svelte';
 
   /** The Account page: section name and (i) on the left, controls on the right. */
@@ -203,4 +204,6 @@
     <div><h3 class="hrow">Sign out<InfoTip text="Removes this browser from your devices. Your Bank stays on the server and on your other devices." /></h3></div>
     <div><button class="btn sm danger" onclick={signOut}>Sign out</button></div>
   </section>
+
+  {#if session.account?.isAdmin}<AdminSection />{/if}
 </main>

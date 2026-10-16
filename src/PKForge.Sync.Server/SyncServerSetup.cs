@@ -5,6 +5,7 @@ using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.Extensions.Options;
 using PKForge.Sync.Protocol;
 using PKForge.Sync.Server.Accounts;
+using PKForge.Sync.Server.Admin;
 using PKForge.Sync.Server.Auth;
 using PKForge.Sync.Server.Blobs;
 using PKForge.Sync.Server.Data;
@@ -35,6 +36,8 @@ public static class SyncServerSetup
         services.AddMemoryCache();
         services.AddSingleton<DetailsCache>();
         services.AddScoped<AccountService>();
+        services.AddScoped<ServerSettingsStore>();
+        services.AddScoped<AdminService>();
         services.AddScoped<PairingService>();
         services.AddSingleton<IBlobStore>(sp =>
             new FileSystemBlobStore(Path.Combine(sp.GetRequiredService<IOptions<SyncOptions>>().Value.DataDirectory, "blobs")));
@@ -79,6 +82,7 @@ public static class SyncServerSetup
         app.MapBlobEndpoints();
         app.MapSyncEndpoints();
         app.MapAccountManagementEndpoints();
+        app.MapAdminEndpoints();
         return app;
     }
 }

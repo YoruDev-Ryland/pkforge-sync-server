@@ -9,6 +9,8 @@ export const PORT = 5199;
 export const BASE = `http://127.0.0.1:${PORT}`;
 export const PASSWORD = 'e2e-password-1';
 export const PHONE = 'Test phone';
+/** The server's first account, made through the web sign-up by fresh.spec.ts before anything else runs: its admin. */
+export const ADMIN_EMAIL = 'admin@e2e.test';
 
 const fixtures = fileURLToPath(new URL('./fixtures/', import.meta.url));
 export const fixture = (name: string) => readFileSync(fixtures + name);
@@ -125,10 +127,10 @@ let counter = 0;
 export const newEmail = (tag: string) => `${tag}-${process.pid}-${Date.now()}-${counter++}@e2e.test`;
 
 /** Signs the page's browser context in with the password (sets the device cookie) without going through the form. */
-export async function signInApi(page: Page, email: string): Promise<void> {
+export async function signInApi(page: Page, email: string, password = PASSWORD): Promise<void> {
   const r = await page.request.post('/v1/web/session', {
     headers: { 'X-PKForge-Protocol': '1' },
-    data: { email, password: PASSWORD, deviceName: 'Chrome on Linux' },
+    data: { email, password, deviceName: 'Chrome on Linux' },
   });
   if (!r.ok()) throw new Error(`web sign-in → ${r.status()}`);
 }

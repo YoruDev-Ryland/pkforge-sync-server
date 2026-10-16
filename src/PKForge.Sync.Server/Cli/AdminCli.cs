@@ -1,6 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using PKForge.Sync.Server.Accounts;
-using PKForge.Sync.Server.Auth;
+using PKForge.Sync.Server.Admin;
 using PKForge.Sync.Server.Data;
 using PKForge.Sync.Server.Http;
 
@@ -27,43 +27,39 @@ public static class AdminCli
     public static async Task<int> RunAsync(IServiceProvider services, AdminCommand command, TextWriter output)
     {
         using var scope = services.CreateScope();
-        var accounts = scope.ServiceProvider.GetRequiredService<AccountService>();
+        var admins = scope.ServiceProvider.GetRequiredService<AdminService>();
         var db = scope.ServiceProvider.GetRequiredService<SyncDbContext>();
+        var ct = CancellationToken.None;
         try
         {
             switch (command.Name)
             {
                 case "create-user" when command.Args.Count >= 1:
                 {
-                    var password = NewPassword();
-                    var account = await accounts.CreateAccountAsync(command.Args[0], password, isAdmin: command.Args.Contains("--admin"), emailVerified: true, CancellationToken.None);
-                    output.WriteLine($"Created {account.Email}{(account.IsAdmin ? " (admin)" : "")}.");
-                    output.WriteLine($"Password: {password}");
+                    var created = await admins.CreateUserAsync(command.Args[0], isAdmin: command.Args.Contains("--admin"), ct);
+                    output.WriteLine($"Created {created.User.Email}{(created.User.IsAdmin ? " (admin)" : "")}.");
+                    output.WriteLine($"Password: {created.Password}");
                     return 0;
                 }
                 case "reset-password" when command.Args.Count == 1:
                 {
-                    var normalized = AccountService.NormalizeEmail(command.Args[0]);
-                    var account = await db.Accounts.AsNoTracking().SingleOrDefaultAsync(a => a.NormalizedEmail == normalized);
+                    var account = await admins.FindByEmailAsync(command.Args[0], ct);
                     if (account is null)
                     {
                         output.WriteLine($"No account uses {command.Args[0]}.");
                         return 1;
                     }
-                    var password = NewPassword();
-                    await accounts.SetPasswordAsync(account.Id, password, CancellationToken.None);
+                    var password = await admins.ResetPasswordAsync(account.Id, signOutDevices: false, ct);
                     output.WriteLine($"New password for {account.Email}.");
                     output.WriteLine($"Password: {password}");
                     return 0;
                 }
                 case "list-users":
                 {
-                    var rows = await db.Accounts.AsNoTracking().OrderBy(a => a.CreatedUtc)
-                        .Select(a => new { a.Email, a.IsAdmin, a.EmailVerified, a.CreatedUtc, Devices = db.Devices.Count(d => d.AccountId == a.Id) })
-                        .ToListAsync();
-                    foreach (var row in rows)
+                    var list = await admins.ListUsersAsync(int.MaxValue, ct);
+                    foreach (var row in list.Users.Reverse())
                         output.WriteLine($"{row.Email}\t{(row.IsAdmin ? "admin" : "user")}\t{(row.EmailVerified ? "verified" : "unverified")}\t{row.Devices} devices\tsince {row.CreatedUtc:yyyy-MM-dd}");
-                    output.WriteLine($"{rows.Count} accounts.");
+                    output.WriteLine($"{list.Users.Count} accounts.");
                     return 0;
                 }
                 case "force-resync" when command.Args.Count == 1:
@@ -97,5 +93,4 @@ public static class AdminCli
         }
     }
 
-    private static string NewPassword() => Secrets.NewKey()[..16];
 }

@@ -363,6 +363,67 @@ a.btn { color: inherit; text-decoration: none; }
 
 .pwform { display: grid; gap: 12px; max-width: 360px; }
 
+/* Sign-in: the quiet note about plain http. */
+.signin .right .plainnote { font-size: .85rem; color: var(--text-3); }
+
+/* Account › Server (admins only): the sign-ups switch and the users list. */
+.acct-h2 { font-family: var(--font-display); font-weight: 800; font-size: 1.15rem; padding-top: 28px; border-top: 1px solid var(--line); }
+.signups { display: grid; gap: 6px; justify-items: start; }
+.signups .sub { font-size: .85rem; color: var(--text-2); }
+.toggle { display: inline-flex; align-items: center; gap: 10px; border: 0; background: none; padding: 2px 0; font-weight: 600; font-size: .92rem; }
+.toggle .track { position: relative; width: 36px; height: 20px; border-radius: 10px; background: var(--track); border: 1px solid var(--line); flex: none; }
+.toggle .track::after { content: ""; position: absolute; top: 2px; left: 2px; width: 14px; height: 14px; border-radius: 50%; background: var(--text-3); }
+.toggle[aria-checked="true"] .track { background: var(--accent); border-color: var(--accent); }
+.toggle[aria-checked="true"] .track::after { left: 18px; background: var(--accent-ink); }
+.toggle:disabled { cursor: default; opacity: .6; }
+.usersrow > .users, .usersrow > .ucap { grid-column: 1 / -1; }
+.usersrow > div:nth-child(2) { justify-self: end; align-self: start; }
+@media (max-width: 760px) { .usersrow > div:nth-child(2) { justify-self: start; } }
+.users { border: 1px solid var(--line); border-radius: 12px; background: var(--surface); container-type: inline-size; }
+.users[aria-busy="true"] { min-height: 61px; }
+.ucap { margin: 0; font-size: .85rem; color: var(--text-3); }
+.vh { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
+/* Phones: each account is a short block (email and Manage, then counts, then dates). */
+.urow { display: flex; flex-wrap: wrap; align-items: center; padding: 10px 14px; border-top: 1px solid var(--line); font-size: .9rem; min-width: 0; }
+.urow:first-child, .uhead + .urow { border-top: 0; }
+.uhead { display: none; }
+.u-em { flex: 1 1 0; min-width: 0; order: 0; font-weight: 600; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.u-em .you { font-weight: 400; color: var(--text-3); }
+.u-act { order: 1; flex: none; margin-left: 12px; }
+.u-br { order: 3; flex-basis: 100%; height: 0; }
+.u-br.first { order: 2; }
+.u-c, .u-d { order: 3; font-size: .8rem; color: var(--text-3); font-variant-numeric: tabular-nums; }
+.u-c.none { display: none; }
+.u-c .w, .u-d .w { display: none; }
+.u-c:not(.none) ~ .u-c:not(.none)::before, .u-d ~ .u-d::before { content: "\00b7"; padding: 0 .4em; }
+.umenu .pop { padding: 4px; gap: 2px; min-width: 210px; }
+.menuitem.plain:hover:not([aria-disabled]) { background: var(--surface-2); }
+.umenu .menunote { max-width: 210px; padding-top: 4px; }
+@container (min-width: 720px) {
+  .urow { display: grid; grid-template-columns: minmax(0, 1fr) 56px 82px 62px 70px 92px 100px 76px; gap: 0 12px; padding: 9px 14px; }
+  .noemail .urow { grid-template-columns: minmax(0, 1fr) 56px 62px 70px 92px 100px 76px; }
+  .uhead { display: grid; font-size: .78rem; font-weight: 700; color: var(--text-3); padding-block: 8px; }
+  .u-em, .u-act, .u-c, .u-d { order: 0; margin: 0; }
+  .u-act { justify-self: end; }
+  .u-br, .u-c .n, .u-d .n { display: none; }
+  .u-c.none { display: block; }
+  .u-c, .u-d { font-size: .88rem; color: var(--text); }
+  .u-c .w, .u-d .w { display: inline; }
+  .u-c .w.no, .u-d .w.no { color: var(--text-3); }
+  .u-c:not(.none) ~ .u-c:not(.none)::before, .u-d ~ .u-d::before { content: none; }
+}
+
+/* Admin dialogs: a generated password, shown once. */
+.admindlg form { display: grid; gap: 12px; }
+.admindlg h3 { overflow-wrap: anywhere; }
+.admindlg p b { color: var(--text); font-weight: 600; overflow-wrap: anywhere; }
+.admindlg .formerr { margin: 0; min-height: 0; width: auto; }
+.admindlg .formerr:empty { display: none; }
+.check { display: inline-flex; align-items: center; gap: 8px; font-size: .9rem; font-weight: 500; justify-self: start; }
+.check input { width: 16px; height: 16px; margin: 0; accent-color: var(--accent); }
+.pwshow { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+.pwshow code { font-family: var(--font-mono); font-size: 1.05rem; padding: 6px 10px; border-radius: 8px; background: var(--surface-2); border: 1px solid var(--line); user-select: all; overflow-wrap: anywhere; }
+
 
 @media (max-width: 1080px) {
   .app { grid-template-columns: 220px minmax(0, 1fr); }

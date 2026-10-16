@@ -117,4 +117,34 @@ public class WebSessionTests
         var devices = await (await phone.GetAsync("/v1/devices")).ReadAsync<List<DeviceInfo>>();
         Assert.Equal(key.DeviceId, devices.Single(d => d.IsCurrent).Id);
     }
+
+    [Fact]
+    public async Task WebSignUpCreatesTheAccountWithThisBrowserAsItsOnlyDevice()
+    {
+        using var server = new SyncServerFactory();
+        var response = await server.Client().PostJsonAsync("/v1/web/register", new RegisterRequest("ash@example.com", TestApi.Password, "  Firefox on Linux "));
+        Assert.Equal(HttpStatusCode.OK, response.StatusCode);
+        var body = await response.ReadAsync<WebSessionResponse>();
+        Assert.False(body.EmailVerified);
+        Assert.DoesNotContain("deviceKey", await response.Content.ReadAsStringAsync());
+
+        var client = WithCookie(server, Cookie(response)!);
+        var devices = await (await client.GetAsync("/v1/devices")).ReadAsync<List<DeviceInfo>>();
+        var device = Assert.Single(devices);
+        Assert.Equal(("Firefox on Linux", true, body.DeviceId), (device.Name, device.IsCurrent, device.Id));
+        Assert.True((await (await client.GetAsync("/v1/account")).ReadAsync<AccountInfo>()).IsAdmin); // the server's first account
+    }
+
+    [Fact]
+    public async Task WebSignUpUsesTheServersPasswordRules()
+    {
+        using var server = new SyncServerFactory();
+        var weak = await server.Client().PostJsonAsync("/v1/web/register", new RegisterRequest("ash@example.com", "short", "Firefox"));
+        await server.RegisterAsync("misty@example.com");
+        var taken = await server.Client().PostJsonAsync("/v1/web/register", new RegisterRequest("Misty@example.com", TestApi.Password, "Firefox"));
+
+        Assert.Equal(ErrorCodes.WeakPassword, (await weak.ReadErrorAsync()).Code);
+        Assert.Null(Cookie(weak));
+        Assert.Equal(ErrorCodes.EmailTaken, (await taken.ReadErrorAsync()).Code);
+    }
 }

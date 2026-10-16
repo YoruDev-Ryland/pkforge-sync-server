@@ -31,6 +31,15 @@ public static class WebSession
             return new WebSessionResponse(key.AccountId, key.DeviceId, key.EmailVerified);
         }).RequireRateLimiting(RateLimits.Auth);
 
+        // Sign-up from the web: creates the account (same rules as POST /v1/accounts) with this browser as its first device.
+        app.MapPost("/v1/web/register", async (RegisterRequest request, HttpContext http, AccountService accounts,
+            IOptions<SyncOptions> options, CancellationToken ct) =>
+        {
+            var key = await accounts.RegisterAsync(request with { DeviceName = DeviceName(request.DeviceName) }, ct);
+            http.Response.Cookies.Append(CookieName, key.DeviceKey, Cookie(http, options.Value, DateTimeOffset.UtcNow.Add(Lifetime)));
+            return new WebSessionResponse(key.AccountId, key.DeviceId, key.EmailVerified);
+        }).RequireRateLimiting(RateLimits.Auth);
+
         app.MapDelete("/v1/web/session", async (ClaimsPrincipal user, HttpContext http, SyncDbContext db, IOptions<SyncOptions> options,
             AccountEvents events, CancellationToken ct) =>
         {

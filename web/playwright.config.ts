@@ -18,6 +18,13 @@ export default defineConfig({
   retries: 0,
   reporter: [['list']],
   snapshotPathTemplate: '{testDir}/__screenshots__/{testFilePath}/{arg}{ext}',
+  // A fresh server first (its first account, made through the web sign-up, is the admin), then everything else, then
+  // the tests that close sign-ups for a moment, so no seeding elsewhere is refused meanwhile.
+  projects: [
+    { name: 'fresh', testMatch: /fresh\.spec\.ts/ },
+    { name: 'main', testIgnore: [/fresh\.spec\.ts/, /closed\.spec\.ts/], dependencies: ['fresh'] },
+    { name: 'closed', testMatch: /closed\.spec\.ts/, dependencies: ['main'] },
+  ],
   use: {
     baseURL: BASE,
     browserName: 'chromium',

@@ -99,3 +99,11 @@ public sealed class AccountPreferences
     public required string Json { get; set; }
     public DateTime UpdatedUtc { get; set; }
 }
+
+/// <summary>A server-wide setting an admin changed from the web; its absence means the configured value applies.</summary>
+public sealed class ServerSetting
+{
+    public required string Key { get; set; }
+    public required string Value { get; set; }
+    public DateTime UpdatedUtc { get; set; }
+}

@@ -141,6 +141,55 @@ export interface WebSessionResponse {
   emailVerified: boolean;
 }
 
+export interface RegisterRequest {
+  email: string;
+  password: string;
+  deviceName: string;
+}
+
+/** GET /v1/account: the signed-in account. */
+export interface AccountInfo {
+  id: string;
+  email: string;
+  emailVerified: boolean;
+  isAdmin: boolean;
+}
+
+/** GET/PUT /v1/admin/settings. */
+export interface AdminSettings {
+  allowRegistration: boolean;
+}
+
+/** One account in the admin users list. `mons` counts live Pokémon; `lastActiveUtc` is the latest sync of any device. */
+export interface AdminUser {
+  id: string;
+  email: string;
+  isAdmin: boolean;
+  emailVerified: boolean;
+  devices: number;
+  mons: number;
+  createdUtc: string;
+  lastActiveUtc: string | null;
+}
+
+/** GET /v1/admin/users: newest first, at most `limit`; `total` counts every account. */
+export interface AdminUsersResponse {
+  users: AdminUser[];
+  total: number;
+  limit: number;
+}
+
+/** POST /v1/admin/users: the only copy of the generated password. */
+export interface AdminCreateUserResponse {
+  user: AdminUser;
+  password: string;
+}
+
+/** POST /v1/admin/users/{id}/reset-password. */
+export interface AdminPasswordResponse {
+  password: string;
+}
+
 export interface TrainerDetails { name: string; gender: string; tid: string; sid: string | null }
 export interface MetDetails { location: string | null; level: number | null; date: string | null; hatched: boolean; eggLocation: string | null; eggDate: string | null }
 export interface HiddenPowerDetails { type: string; power: number }

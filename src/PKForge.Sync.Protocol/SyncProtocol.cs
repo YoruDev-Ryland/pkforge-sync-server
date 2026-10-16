@@ -42,4 +42,10 @@ public static class ErrorCodes
     public const string Busy = "busy";
     public const string NotFound = "not_found";
     public const string RateLimited = "rate_limited";
+    /// <summary>403: the call is for server admins only.</summary>
+    public const string AdminRequired = "admin_required";
+    /// <summary>409: the change would leave the server without an admin.</summary>
+    public const string LastAdmin = "last_admin";
+    /// <summary>400: admins don't remove their own admin or delete themselves from the users list.</summary>
+    public const string SelfChange = "self_change";
 }

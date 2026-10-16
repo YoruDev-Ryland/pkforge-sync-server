@@ -1,4 +1,5 @@
 using System.Net;
+using System.Net.Http.Json;
 using Microsoft.Extensions.DependencyInjection;
 using PKForge.Sync.Protocol;
 using PKForge.Sync.Server.Sync;
@@ -46,5 +47,38 @@ public static class Scenarios
             await scope.ServiceProvider.GetRequiredService<TombstonePruner>().PruneAsync(CancellationToken.None);
         Assert.Equal(HttpStatusCode.Gone, (await phone.GetAsync("/v1/sync/changes?since=5")).StatusCode);
         Assert.Equal([1L, 4L], (await phone.ChangesAsync(0)).Items.Select(i => i.Version));
+    }
+
+    /// <summary>The admin tools' queries and writes: settings, the users list, roles, sign-out and delete.</summary>
+    public static async Task AdminToolsAsync(SyncServerFactory server)
+    {
+        server.Settings["Sync:AllowRegistration"] = "false";
+        var (admin, _) = await server.RegisterAsync("ash@example.com");
+        Assert.False((await (await server.Client().GetAsync("/v1/server-info")).ReadAsync<ServerInfo>()).RegistrationOpen);
+        (await admin.PutAsJsonAsync("/v1/admin/settings", new AdminSettings(true), ProtocolJson.Options)).EnsureSuccessStatusCode();
+        Assert.True((await (await server.Client().GetAsync("/v1/server-info")).ReadAsync<ServerInfo>()).RegistrationOpen);
+        (await admin.PutAsJsonAsync("/v1/admin/settings", new AdminSettings(true), ProtocolJson.Options)).EnsureSuccessStatusCode(); // updates the row
+
+        var (misty, mistyKey) = await server.RegisterAsync("misty@example.com");
+        var blob = await misty.UploadAsync(Mons.Bytes(1));
+        await misty.PushAsync(Mons.Group(Mons.Write(Guid.NewGuid(), 0, 0, blob)));
+        var created = await (await admin.PostJsonAsync("/v1/admin/users", new AdminCreateUserRequest("brock@example.com", false))).ReadAsync<AdminCreateUserResponse>();
+
+        var list = await (await admin.GetAsync("/v1/admin/users")).ReadAsync<AdminUsersResponse>();
+        Assert.Equal(3, list.Total);
+        var row = list.Users.Single(u => u.Id == mistyKey.AccountId);
+        Assert.Equal((1, 1), (row.Devices, row.Mons));
+        Assert.NotNull(row.LastActiveUtc);
+        Assert.Null(list.Users.Single(u => u.Id == created.User.Id).LastActiveUtc);
+
+        (await admin.PutAsJsonAsync($"/v1/admin/users/{created.User.Id}/admin", new AdminSetRoleRequest(true), ProtocolJson.Options)).EnsureSuccessStatusCode();
+        (await admin.PostJsonAsync($"/v1/admin/users/{mistyKey.AccountId}/reset-password", new AdminResetPasswordRequest(true))).EnsureSuccessStatusCode();
+        Assert.Equal(HttpStatusCode.Unauthorized, (await misty.GetAsync("/v1/devices")).StatusCode);
+        var delete = await admin.SendAsync(new HttpRequestMessage(HttpMethod.Delete, $"/v1/admin/users/{mistyKey.AccountId}")
+        {
+            Content = System.Net.Http.Json.JsonContent.Create(new AdminDeleteUserRequest("misty@example.com"), options: ProtocolJson.Options),
+        });
+        Assert.Equal(HttpStatusCode.NoContent, delete.StatusCode);
+        Assert.Equal(2, (await (await admin.GetAsync("/v1/admin/users")).ReadAsync<AdminUsersResponse>()).Total);
     }
 }

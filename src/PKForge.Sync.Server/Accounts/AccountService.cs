@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
 using PKForge.Sync.Protocol;
+using PKForge.Sync.Server.Admin;
 using PKForge.Sync.Server.Auth;
 using PKForge.Sync.Server.Blobs;
 using PKForge.Sync.Server.Data;
@@ -15,7 +16,7 @@ namespace PKForge.Sync.Server.Accounts;
 
 public sealed class AccountService(
     SyncDbContext db, IOptions<SyncOptions> options, TimeProvider time, IEmailSender email, ILogger<AccountService> log,
-    IBlobStore blobs, AccountLocks locks, AccountEvents events)
+    IBlobStore blobs, AccountLocks locks, AccountEvents events, ServerSettingsStore settings)
 {
     public const int MinPasswordLength = 8;
     private static readonly PasswordHasher<Account> Hasher = new();
@@ -26,7 +27,7 @@ public sealed class AccountService(
     {
         var deviceName = CheckDeviceName(request.DeviceName);
         var first = !await db.Accounts.AnyAsync(ct);
-        if (!first && !options.Value.AllowRegistration)
+        if (!first && !await settings.AllowRegistrationAsync(ct))
             throw new ApiException(StatusCodes.Status403Forbidden, ErrorCodes.RegistrationClosed, "This server does not accept new accounts.");
 
         var account = await CreateAccountAsync(request.Email, request.Password, isAdmin: first, emailVerified: false, ct);
@@ -72,7 +73,12 @@ public sealed class AccountService(
         var account = await db.Accounts.AsNoTracking().SingleAsync(a => a.Id == accountId, ct);
         if (!VerifyPassword(account, password))
             throw new ApiException(StatusCodes.Status401Unauthorized, ErrorCodes.InvalidCredentials, "The password is wrong.");
+        await RemoveAccountAsync(accountId, ct);
+    }
 
+    /// <summary>Removes the account and everything stored for it, without asking for its password (self-delete and admins).</summary>
+    public async Task RemoveAccountAsync(Guid accountId, CancellationToken ct)
+    {
         using var _ = await locks.AcquireAsync(accountId, ct);
         await using (var transaction = await db.Database.BeginTransactionAsync(ct))
         {

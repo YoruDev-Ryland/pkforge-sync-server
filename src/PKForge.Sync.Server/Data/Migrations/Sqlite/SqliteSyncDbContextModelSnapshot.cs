@@ -262,6 +262,25 @@ namespace PKForge.Sync.Server.Data.Migrations.Sqlite
                     b.ToTable("PairingCodes");
                 });
 
+            modelBuilder.Entity("PKForge.Sync.Server.Data.ServerSetting", b =>
+                {
+                    b.Property<string>("Key")
+                        .HasMaxLength(64)
+                        .HasColumnType("TEXT");
+
+                    b.Property<DateTime>("UpdatedUtc")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Value")
+                        .IsRequired()
+                        .HasMaxLength(256)
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("Key");
+
+                    b.ToTable("ServerSettings");
+                });
+
             modelBuilder.Entity("PKForge.Sync.Server.Data.AccountPreferences", b =>
                 {
                     b.HasOne("PKForge.Sync.Server.Data.Account", null)

@@ -63,6 +63,7 @@ const WORDS: Record<string, string> = {
   offline: "Can't reach the server. Check your connection and try again.",
   email_not_verified: 'Verify your email address first. Check your inbox for the link.',
   weak_password: 'Use at least 8 characters.',
+  registration_closed: 'Sign-ups are closed on this server. Ask its admin for an account.',
 };
 
 /** A 403 writes_disabled carries the server's own reason; this is for when it has none. */

@@ -17,6 +17,7 @@ public abstract class SyncDbContext(DbContextOptions options) : DbContext(option
     public DbSet<Blob> Blobs => Set<Blob>();
     public DbSet<GroupReceipt> GroupReceipts => Set<GroupReceipt>();
     public DbSet<AccountPreferences> Preferences => Set<AccountPreferences>();
+    public DbSet<ServerSetting> ServerSettings => Set<ServerSetting>();
 
     protected override void OnModelCreating(ModelBuilder model)
     {
@@ -86,6 +87,12 @@ public abstract class SyncDbContext(DbContextOptions options) : DbContext(option
             e.HasKey(p => p.AccountId);
             e.Property(p => p.Json).HasMaxLength(4096);
             e.HasOne<Account>().WithMany().HasForeignKey(p => p.AccountId).OnDelete(DeleteBehavior.Cascade);
+        });
+        model.Entity<ServerSetting>(e =>
+        {
+            e.HasKey(s => s.Key);
+            e.Property(s => s.Key).HasMaxLength(64);
+            e.Property(s => s.Value).HasMaxLength(256);
         });
     }
 }

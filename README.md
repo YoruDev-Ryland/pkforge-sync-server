@@ -53,7 +53,7 @@ Set these as environment variables (all optional).
 | Variable | Default | What it does |
 |---|---|---|
 | `PUBLIC_URL` | `http://localhost:8080` | Address devices and email links use to reach the server |
-| `ALLOW_REGISTRATION` | `false` | Let anyone with the address create an account (the first account always can) |
+| `ALLOW_REGISTRATION` | `false` | Let anyone with the address create an account (the first account always can); once an admin changes it on the web Bank's Account page, that choice wins |
 | `WEB_ROOT` | `wwwroot` beside the app | Folder with the built web app; set it only when running from source |
 | `DATA_DIR` | `/data` in the Docker image; `data` (relative to the working directory) otherwise | Where the SQLite database and Pokémon data live |
 | `DATABASE_PROVIDER` | `sqlite` | `sqlite` or `postgres` |
