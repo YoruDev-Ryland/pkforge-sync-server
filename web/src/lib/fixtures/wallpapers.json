@@ -1,0 +1,291 @@
+{
+  "palette": [
+    "#1b3146",
+    "#1b2e58",
+    "#3b3238",
+    "#42283c",
+    "#312955",
+    "#183a4a",
+    "#40284d",
+    "#2a3b38"
+  ],
+  "groups": [
+    {
+      "title": "Ruby \u0026 Sapphire",
+      "assets": [
+        "box_wp01rs",
+        "box_wp02rs",
+        "box_wp03rs",
+        "box_wp04rs",
+        "box_wp05rs",
+        "box_wp06rs",
+        "box_wp07rs",
+        "box_wp08rs",
+        "box_wp09rs",
+        "box_wp10rs",
+        "box_wp11rs",
+        "box_wp12rs",
+        "box_wp13rs",
+        "box_wp14rs",
+        "box_wp15rs",
+        "box_wp16rs"
+      ]
+    },
+    {
+      "title": "Emerald",
+      "assets": [
+        "box_wp01e",
+        "box_wp02e",
+        "box_wp03e",
+        "box_wp04e",
+        "box_wp05e",
+        "box_wp06e",
+        "box_wp07e",
+        "box_wp08e",
+        "box_wp09e",
+        "box_wp10e",
+        "box_wp11e",
+        "box_wp12e",
+        "box_wp13e",
+        "box_wp14e",
+        "box_wp15e",
+        "box_wp16e"
+      ]
+    },
+    {
+      "title": "FireRed \u0026 LeafGreen",
+      "assets": [
+        "box_wp13frlg",
+        "box_wp14frlg",
+        "box_wp15frlg",
+        "box_wp16frlg"
+      ]
+    },
+    {
+      "title": "Diamond \u0026 Pearl",
+      "assets": [
+        "box_wp01dp",
+        "box_wp02dp",
+        "box_wp03dp",
+        "box_wp04dp",
+        "box_wp05dp",
+        "box_wp06dp",
+        "box_wp07dp",
+        "box_wp08dp",
+        "box_wp09dp",
+        "box_wp10dp",
+        "box_wp11dp",
+        "box_wp12dp",
+        "box_wp13dp",
+        "box_wp14dp",
+        "box_wp15dp",
+        "box_wp16dp",
+        "box_wp17dp",
+        "box_wp18dp",
+        "box_wp19dp",
+        "box_wp20dp",
+        "box_wp21dp",
+        "box_wp22dp",
+        "box_wp23dp",
+        "box_wp24dp"
+      ]
+    },
+    {
+      "title": "Platinum",
+      "assets": [
+        "box_wp17pt",
+        "box_wp18pt",
+        "box_wp19pt",
+        "box_wp20pt",
+        "box_wp21pt",
+        "box_wp22pt",
+        "box_wp23pt",
+        "box_wp24pt"
+      ]
+    },
+    {
+      "title": "HeartGold \u0026 SoulSilver",
+      "assets": [
+        "box_wp17hgss",
+        "box_wp18hgss",
+        "box_wp19hgss",
+        "box_wp20hgss",
+        "box_wp21hgss",
+        "box_wp22hgss",
+        "box_wp23hgss",
+        "box_wp24hgss"
+      ]
+    },
+    {
+      "title": "Black \u0026 White",
+      "assets": [
+        "box_wp01bw",
+        "box_wp02bw",
+        "box_wp03bw",
+        "box_wp04bw",
+        "box_wp05bw",
+        "box_wp06bw",
+        "box_wp07bw",
+        "box_wp08bw",
+        "box_wp09bw",
+        "box_wp10bw",
+        "box_wp11bw",
+        "box_wp12bw",
+        "box_wp13bw",
+        "box_wp14bw",
+        "box_wp15bw",
+        "box_wp16bw",
+        "box_wp17bw",
+        "box_wp18bw",
+        "box_wp19bw",
+        "box_wp20bw",
+        "box_wp21bw",
+        "box_wp22bw",
+        "box_wp23bw",
+        "box_wp24bw"
+      ]
+    },
+    {
+      "title": "Black 2 \u0026 White 2",
+      "assets": [
+        "box_wp17b2w2",
+        "box_wp18b2w2",
+        "box_wp19b2w2",
+        "box_wp20b2w2",
+        "box_wp21b2w2",
+        "box_wp22b2w2",
+        "box_wp23b2w2",
+        "box_wp24b2w2"
+      ]
+    },
+    {
+      "title": "X \u0026 Y",
+      "assets": [
+        "box_wp01xy",
+        "box_wp02xy",
+        "box_wp03xy",
+        "box_wp04xy",
+        "box_wp05xy",
+        "box_wp06xy",
+        "box_wp07xy",
+        "box_wp08xy",
+        "box_wp09xy",
+        "box_wp10xy",
+        "box_wp11xy",
+        "box_wp12xy",
+        "box_wp13xy",
+        "box_wp14xy",
+        "box_wp15xy",
+        "box_wp16xy",
+        "box_wp17xy",
+        "box_wp18xy",
+        "box_wp19xy",
+        "box_wp20xy",
+        "box_wp21xy",
+        "box_wp22xy",
+        "box_wp23xy",
+        "box_wp24xy"
+      ]
+    },
+    {
+      "title": "Omega Ruby \u0026 Alpha Sapphire",
+      "assets": [
+        "box_wp17ao",
+        "box_wp18ao",
+        "box_wp19ao",
+        "box_wp20ao",
+        "box_wp21ao",
+        "box_wp22ao",
+        "box_wp23ao",
+        "box_wp24ao"
+      ]
+    },
+    {
+      "title": "Sword \u0026 Shield",
+      "assets": [
+        "box_wp01swsh",
+        "box_wp02swsh",
+        "box_wp03swsh",
+        "box_wp04swsh",
+        "box_wp05swsh",
+        "box_wp06swsh",
+        "box_wp07swsh",
+        "box_wp08swsh",
+        "box_wp09swsh",
+        "box_wp10swsh",
+        "box_wp11swsh",
+        "box_wp12swsh",
+        "box_wp13swsh",
+        "box_wp14swsh",
+        "box_wp15swsh",
+        "box_wp16swsh",
+        "box_wp17swsh",
+        "box_wp18swsh",
+        "box_wp19swsh"
+      ]
+    },
+    {
+      "title": "Brilliant Diamond \u0026 Shining Pearl",
+      "assets": [
+        "box_wp01bdsp",
+        "box_wp02bdsp",
+        "box_wp03bdsp",
+        "box_wp04bdsp",
+        "box_wp05bdsp",
+        "box_wp06bdsp",
+        "box_wp07bdsp",
+        "box_wp08bdsp",
+        "box_wp09bdsp",
+        "box_wp10bdsp",
+        "box_wp11bdsp",
+        "box_wp12bdsp",
+        "box_wp13bdsp",
+        "box_wp14bdsp",
+        "box_wp15bdsp",
+        "box_wp16bdsp",
+        "box_wp17bdsp",
+        "box_wp18bdsp",
+        "box_wp19bdsp",
+        "box_wp20bdsp",
+        "box_wp21bdsp",
+        "box_wp22bdsp",
+        "box_wp23bdsp",
+        "box_wp24bdsp",
+        "box_wp25bdsp",
+        "box_wp26bdsp",
+        "box_wp27bdsp",
+        "box_wp28bdsp",
+        "box_wp29bdsp",
+        "box_wp30bdsp",
+        "box_wp31bdsp",
+        "box_wp32bdsp"
+      ]
+    },
+    {
+      "title": "Scarlet \u0026 Violet",
+      "assets": [
+        "box_wp01sv",
+        "box_wp02sv",
+        "box_wp03sv",
+        "box_wp04sv",
+        "box_wp05sv",
+        "box_wp06sv",
+        "box_wp07sv",
+        "box_wp08sv",
+        "box_wp09sv",
+        "box_wp10sv",
+        "box_wp11sv",
+        "box_wp12sv",
+        "box_wp13sv",
+        "box_wp14sv",
+        "box_wp15sv",
+        "box_wp16sv",
+        "box_wp17sv",
+        "box_wp18sv",
+        "box_wp19sv",
+        "box_wp20sv_n",
+        "box_wp20sv_u"
+      ]
+    }
+  ]
+}

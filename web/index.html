@@ -1,0 +1,13 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <title>PKForge Bank</title>
+    <script>
+      // Cached theme first, so the page never flashes the default colors.
+      try { const t = JSON.parse(localStorage.getItem('pkf-theme') || 'null'); if (t) { document.documentElement.dataset.mode = t.mode; document.documentElement.style.setProperty('--hue', t.hue); document.documentElement.style.setProperty('--accent-ink', t.ink); } } catch {}
+    </script>
+  </head>
+  <body><div id="app"></div><script type="module" src="/src/main.ts"></script></body>
+</html>

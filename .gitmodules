@@ -1,0 +1,4 @@
+[submodule "external/PKHeX"]
+	path = external/PKHeX
+	url = https://github.com/YoruDev-Ryland/PKForge-PKHeX.git
+	branch = pkforge-sync-pin

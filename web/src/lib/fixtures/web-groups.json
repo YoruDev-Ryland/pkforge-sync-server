@@ -1,0 +1,314 @@
+{
+  "start": {
+    "mons": [
+      [
+        "a",
+        0,
+        0
+      ],
+      [
+        "b",
+        0,
+        1
+      ],
+      [
+        "c",
+        2,
+        5
+      ]
+    ],
+    "boxes": {
+      "count": 4,
+      "names": [
+        "Keepers",
+        null,
+        "Trades"
+      ],
+      "wallpapers": [
+        "color:3",
+        null,
+        "art:box_wp01e"
+      ]
+    },
+    "settings": {
+      "livingDexStartBox": 2
+    }
+  },
+  "steps": [
+    {
+      "clientGroupId": "00000000-0000-4000-8000-000000001001",
+      "writes": [
+        {
+          "kind": "mon",
+          "id": "a",
+          "baseVersion": 7,
+          "value": {
+            "box": 1,
+            "slot": 4,
+            "info": {
+              "species": 328,
+              "form": 0,
+              "shiny": false,
+              "nickname": "TRAPINCH",
+              "level": 1,
+              "generation": 3,
+              "sourceName": "Emerald"
+            },
+            "blob": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+            "movedUtc": "2026-10-15T12:00:00.000Z",
+            "addedUtc": "2026-01-01T00:00:00Z"
+          }
+        }
+      ]
+    },
+    {
+      "clientGroupId": "00000000-0000-4000-8000-000000001002",
+      "writes": [
+        {
+          "kind": "mon",
+          "id": "a",
+          "baseVersion": 7,
+          "value": {
+            "box": 0,
+            "slot": 1,
+            "info": {
+              "species": 328,
+              "form": 0,
+              "shiny": false,
+              "nickname": "TRAPINCH",
+              "level": 1,
+              "generation": 3,
+              "sourceName": "Emerald"
+            },
+            "blob": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+            "movedUtc": "2026-10-15T12:00:00.000Z",
+            "addedUtc": "2026-01-01T00:00:00Z"
+          }
+        },
+        {
+          "kind": "mon",
+          "id": "b",
+          "baseVersion": 7,
+          "value": {
+            "box": 0,
+            "slot": 0,
+            "info": {
+              "species": 328,
+              "form": 0,
+              "shiny": false,
+              "nickname": "TRAPINCH",
+              "level": 1,
+              "generation": 3,
+              "sourceName": "Emerald"
+            },
+            "blob": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+            "movedUtc": "2026-10-15T12:00:00.000Z",
+            "addedUtc": "2026-01-01T00:00:00Z"
+          }
+        }
+      ]
+    },
+    {
+      "clientGroupId": "00000000-0000-4000-8000-000000001003",
+      "writes": [
+        {
+          "kind": "mon",
+          "id": "a",
+          "baseVersion": 7,
+          "value": {
+            "box": 3,
+            "slot": 0,
+            "info": {
+              "species": 328,
+              "form": 0,
+              "shiny": false,
+              "nickname": "TRAPINCH",
+              "level": 1,
+              "generation": 3,
+              "sourceName": "Emerald"
+            },
+            "blob": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+            "movedUtc": "2026-10-15T12:00:00.000Z",
+            "addedUtc": "2026-01-01T00:00:00Z"
+          }
+        },
+        {
+          "kind": "mon",
+          "id": "b",
+          "baseVersion": 7,
+          "value": {
+            "box": 3,
+            "slot": 1,
+            "info": {
+              "species": 328,
+              "form": 0,
+              "shiny": false,
+              "nickname": "TRAPINCH",
+              "level": 1,
+              "generation": 3,
+              "sourceName": "Emerald"
+            },
+            "blob": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+            "movedUtc": "2026-10-15T12:00:00.000Z",
+            "addedUtc": "2026-01-01T00:00:00Z"
+          }
+        }
+      ]
+    },
+    {
+      "clientGroupId": "00000000-0000-4000-8000-000000001004",
+      "writes": [
+        {
+          "kind": "boxes",
+          "id": "bank",
+          "baseVersion": 4,
+          "value": {
+            "count": 4,
+            "names": [
+              "Keepers",
+              "Shiny hunts in progress",
+              "Trades"
+            ],
+            "wallpapers": [
+              "color:3",
+              null,
+              "art:box_wp01e"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "clientGroupId": "00000000-0000-4000-8000-000000001005",
+      "writes": [
+        {
+          "kind": "boxes",
+          "id": "bank",
+          "baseVersion": 4,
+          "value": {
+            "count": 4,
+            "names": [
+              "Keepers",
+              null,
+              "Trades"
+            ],
+            "wallpapers": [
+              "color:3",
+              null,
+              "art:box_wp01e",
+              "art:box_wp20sv_n"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "clientGroupId": "00000000-0000-4000-8000-000000001006",
+      "writes": [
+        {
+          "kind": "boxes",
+          "id": "bank",
+          "baseVersion": 4,
+          "value": {
+            "count": 4,
+            "names": [
+              "Trades",
+              "Keepers",
+              null,
+              null
+            ],
+            "wallpapers": [
+              "art:box_wp01e",
+              "color:3",
+              null,
+              null
+            ]
+          }
+        },
+        {
+          "kind": "mon",
+          "id": "a",
+          "baseVersion": 7,
+          "value": {
+            "box": 1,
+            "slot": 0,
+            "info": {
+              "species": 328,
+              "form": 0,
+              "shiny": false,
+              "nickname": "TRAPINCH",
+              "level": 1,
+              "generation": 3,
+              "sourceName": "Emerald"
+            },
+            "blob": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+            "movedUtc": "2026-10-15T12:00:00.000Z",
+            "addedUtc": "2026-01-01T00:00:00Z"
+          }
+        },
+        {
+          "kind": "mon",
+          "id": "b",
+          "baseVersion": 7,
+          "value": {
+            "box": 1,
+            "slot": 1,
+            "info": {
+              "species": 328,
+              "form": 0,
+              "shiny": false,
+              "nickname": "TRAPINCH",
+              "level": 1,
+              "generation": 3,
+              "sourceName": "Emerald"
+            },
+            "blob": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+            "movedUtc": "2026-10-15T12:00:00.000Z",
+            "addedUtc": "2026-01-01T00:00:00Z"
+          }
+        },
+        {
+          "kind": "mon",
+          "id": "c",
+          "baseVersion": 7,
+          "value": {
+            "box": 0,
+            "slot": 5,
+            "info": {
+              "species": 328,
+              "form": 0,
+              "shiny": false,
+              "nickname": "TRAPINCH",
+              "level": 1,
+              "generation": 3,
+              "sourceName": "Emerald"
+            },
+            "blob": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+            "movedUtc": "2026-10-15T12:00:00.000Z",
+            "addedUtc": "2026-01-01T00:00:00Z"
+          }
+        },
+        {
+          "kind": "settings",
+          "id": "bank",
+          "baseVersion": 2,
+          "value": {
+            "livingDexStartBox": 0
+          }
+        }
+      ]
+    },
+    {
+      "clientGroupId": "00000000-0000-4000-8000-000000001007",
+      "writes": [
+        {
+          "kind": "mon",
+          "id": "b",
+          "baseVersion": 7,
+          "value": null,
+          "deleted": true
+        }
+      ]
+    }
+  ]
+}

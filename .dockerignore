@@ -1,0 +1,11 @@
+**/bin
+**/obj
+tests
+**/test-results
+**/playwright-report
+.git
+.github
+web/node_modules
+web/dist
+external/PKHeX/.git
+**/*.Tests

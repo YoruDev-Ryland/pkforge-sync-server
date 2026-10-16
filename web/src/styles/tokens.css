@@ -1,0 +1,76 @@
+@import '@fontsource/m-plus-rounded-1c/700.css';
+@import '@fontsource/m-plus-rounded-1c/800.css';
+@import '@fontsource/hanken-grotesk/400.css';
+@import '@fontsource/hanken-grotesk/500.css';
+@import '@fontsource/hanken-grotesk/600.css';
+@import '@fontsource/hanken-grotesk/700.css';
+@import '@fontsource/ibm-plex-mono/400.css';
+@import '@fontsource/ibm-plex-mono/500.css';
+
+
+/* Layout: app shell — sidebar of boxes (with occupancy minimaps) | box workspace | inspector.
+   Text always sits on solid surfaces; wallpaper only shows behind the slot grid, under a veil. */
+/* Themes have two inputs: a mode (light / dark neutrals) and --hue, one of the app's color themes.
+   Every surface, line and accent below is derived from those two, so a new theme is one color. */
+/* --hue is registered as a color so it can fade: "Match box" changes it when you switch boxes. */
+@property --hue { syntax: '<color>'; inherits: true; initial-value: #2789cd; }
+/* The --n-* neutrals are pure greys (OKLCH chroma 0); all of the color comes from --hue, so no theme has a built-in cast. */
+:root { transition: --hue .25s ease; }
+@media (prefers-reduced-motion: reduce) { :root { transition: none; } }
+:root {
+  --hue: #2789cd; --accent-ink: #ffffff;
+  --n-bg: #f6f6f6; --n-surface: #ffffff; --n-surface-2: #f1f1f1; --n-line: #e0e0e0;
+  --n-text: #202020; --n-text-2: #555555; --n-text-3: #707070;
+  --tint: 8%; --surface-share: .6; --text-amt: 6%; --text-2-amt: 12%; --text-3-amt: 14%; --accent-toward: #000000; --accent-amt: 14%; --soft-amt: 13%;
+  --danger: #c3332b; --gold: #a87412; --ok: #2b8f44;
+  --veil: rgb(255 255 255 / .5); --slot: rgb(255 255 255 / .78); --slot-empty: rgb(255 255 255 / .3); --slot-edge: transparent;
+  --mark-off: var(--line); --track: var(--surface-2);
+  --shadow: 0 1px 2px color-mix(in srgb, var(--shade) 6%, transparent), 0 8px 24px color-mix(in srgb, var(--shade) 8%, transparent);
+  --font-display: "M PLUS Rounded 1c", "Hanken Grotesk", system-ui, sans-serif;
+  --font-body: "Hanken Grotesk", "Segoe UI", system-ui, sans-serif;
+  --font-mono: "IBM Plex Mono", ui-monospace, Menlo, monospace;
+}
+@media (prefers-color-scheme: dark) { :root:not([data-mode="light"]):not([data-mode="dark"]) {
+  --n-bg: #121212; --n-surface: #1a1a1a; --n-surface-2: #222222; --n-line: #313131;
+  --n-text: #f1f1f1; --n-text-2: #b0b0b0; --n-text-3: #868686;
+  --tint: 16%; --surface-share: .6; --text-amt: 4%; --text-2-amt: 10%; --text-3-amt: 12%; --accent-toward: #ffffff; --accent-amt: 12%; --soft-amt: 24%;
+  --danger: #ef6157; --gold: #e2a83c; --ok: #52c56a;
+  --veil: color-mix(in srgb, var(--shade) 42%, transparent); --slot: color-mix(in srgb, var(--shade) 60%, transparent); --slot-empty: color-mix(in srgb, var(--shade) 24%, transparent); --slot-edge: rgb(255 255 255 / .1);
+  --mark-off: var(--text-3); --track: color-mix(in oklab, var(--text-3) 40%, var(--surface-2));
+  --shadow: 0 1px 2px rgb(0 0 0 / .3), 0 10px 30px rgb(0 0 0 / .35); color-scheme: dark; } }
+/* Explicit mode, set on <html> by theme.ts */
+/* --mark-off / --track: empty markings and meter tracks; dark mode lifts them off the surface so they stay visible. */
+:root[data-mode="light"] {
+  --n-bg: #f6f6f6; --n-surface: #ffffff; --n-surface-2: #f1f1f1; --n-line: #e0e0e0;
+  --n-text: #202020; --n-text-2: #555555; --n-text-3: #707070;
+  --tint: 8%; --surface-share: .6; --text-amt: 6%; --text-2-amt: 12%; --text-3-amt: 14%; --accent-toward: #000000; --accent-amt: 14%; --soft-amt: 13%;
+  --danger: #c3332b; --gold: #a87412; --ok: #2b8f44;
+  --veil: rgb(255 255 255 / .5); --slot: rgb(255 255 255 / .78); --slot-empty: rgb(255 255 255 / .3); --slot-edge: transparent;
+  --mark-off: var(--line); --track: var(--surface-2);
+  --shadow: 0 1px 2px color-mix(in srgb, var(--shade) 6%, transparent), 0 8px 24px color-mix(in srgb, var(--shade) 8%, transparent); color-scheme: light; }
+:root[data-mode="dark"] {
+  --n-bg: #121212; --n-surface: #1a1a1a; --n-surface-2: #222222; --n-line: #313131;
+  --n-text: #f1f1f1; --n-text-2: #b0b0b0; --n-text-3: #868686;
+  --tint: 16%; --surface-share: .6; --text-amt: 4%; --text-2-amt: 10%; --text-3-amt: 12%; --accent-toward: #ffffff; --accent-amt: 12%; --soft-amt: 24%;
+  --danger: #ef6157; --gold: #e2a83c; --ok: #52c56a;
+  --veil: color-mix(in srgb, var(--shade) 42%, transparent); --slot: color-mix(in srgb, var(--shade) 60%, transparent); --slot-empty: color-mix(in srgb, var(--shade) 24%, transparent); --slot-edge: rgb(255 255 255 / .1);
+  --mark-off: var(--text-3); --track: color-mix(in oklab, var(--text-3) 40%, var(--surface-2));
+  --shadow: 0 1px 2px rgb(0 0 0 / .3), 0 10px 30px rgb(0 0 0 / .35); color-scheme: dark; }
+:root {
+  --accent: color-mix(in oklab, var(--hue), var(--accent-toward) var(--accent-amt));
+  --bg: color-mix(in oklab, var(--hue) var(--tint), var(--n-bg));
+  --surface: color-mix(in oklab, var(--hue) calc(var(--tint) * var(--surface-share)), var(--n-surface));
+  --surface-2: color-mix(in oklab, var(--hue) var(--tint), var(--n-surface-2));
+  --line: color-mix(in oklab, var(--hue) calc(var(--tint) * 1.6), var(--n-line));
+  /* Text carries a whisper of the hue, secondary text a little more, so greys lean the theme's way. */
+  --text: color-mix(in oklab, var(--hue) var(--text-amt), var(--n-text));
+  --text-2: color-mix(in oklab, var(--hue) var(--text-2-amt), var(--n-text-2));
+  --text-3: color-mix(in oklab, var(--hue) var(--text-3-amt), var(--n-text-3));
+  /* Near-black leaning the hue: shadows, the dialog scrim and (dark mode) the veil over wallpapers. */
+  --shade: color-mix(in oklab, var(--hue) 16%, #0f0f0f);
+  --scrim: color-mix(in srgb, var(--shade) 45%, transparent);
+  --accent-soft: color-mix(in oklab, var(--hue) var(--soft-amt), var(--surface));
+  --accent-line: color-mix(in oklab, var(--hue) 45%, var(--surface));
+  --accent-text: color-mix(in oklab, var(--accent) 72%, var(--text));
+  --danger-soft: color-mix(in oklab, var(--danger) 14%, var(--surface));
+}

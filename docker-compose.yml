@@ -1,0 +1,26 @@
+# Self-hosted PKForge Bank sync.
+#   docker compose up -d
+#   docker exec pkforge-sync list-users
+services:
+  pkforge-sync:
+    build: .
+    container_name: pkforge-sync
+    restart: unless-stopped
+    ports:
+      - "8080:8080"
+    volumes:
+      - pkforge-sync-data:/data
+    environment:
+      # The address your devices use to reach this server.
+      PUBLIC_URL: "http://<your-server-ip>:8080"
+      # The first account can always sign up; set true to let others sign up too.
+      ALLOW_REGISTRATION: "false"
+      # Optional email for password resets:
+      # SMTP_HOST: "smtp.example.com"
+      # SMTP_PORT: "587"
+      # SMTP_USERNAME: "user"
+      # SMTP_PASSWORD: "secret"
+      # SMTP_FROM: "PKForge Sync <sync@example.com>"
+
+volumes:
+  pkforge-sync-data:

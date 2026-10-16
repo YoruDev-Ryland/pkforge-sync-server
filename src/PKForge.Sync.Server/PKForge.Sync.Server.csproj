@@ -1,0 +1,66 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <ItemGroup>
+    <ProjectReference Include="..\PKForge.Sync.Protocol\PKForge.Sync.Protocol.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="MailKit" Version="4.18.1" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="10.0.13">
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+      <PrivateAssets>all</PrivateAssets>
+    </PackageReference>
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="10.0.13" />
+    <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="10.0.3" />
+    <PackageReference Include="System.Security.Cryptography.Pkcs" Version="10.0.13" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <!-- The app's move table (PokeAPI data, BSD-3-Clause); kept byte-identical by PKForge's WebParityTests. -->
+    <EmbeddedResource Include="Resources/dexfacts.tsv.gz" LogicalName="PKForge.Sync.Server.dexfacts.tsv.gz" />
+  </ItemGroup>
+
+  <PropertyGroup>
+    <TargetFramework>net10.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+  </PropertyGroup>
+
+  <!-- Inside the PKForge repo (external/pkforge-sync-server) build against PKForge's own PKHeX.Core,
+       so the app's test build never sees two PKHeX.Core assemblies. -->
+  <PropertyGroup>
+    <PKHeXCoreProject Condition="Exists('$(MSBuildThisFileDirectory)../../../../external/PKHeX/PKHeX.Core/PKHeX.Core.csproj') And Exists('$(MSBuildThisFileDirectory)../../../../src/PKForge.Sync/PKForge.Sync.csproj')">$(MSBuildThisFileDirectory)../../../../external/PKHeX/PKHeX.Core/PKHeX.Core.csproj</PKHeXCoreProject>
+    <PKHeXCoreProject Condition="'$(PKHeXCoreProject)' == ''">$(MSBuildThisFileDirectory)../../external/PKHeX/PKHeX.Core/PKHeX.Core.csproj</PKHeXCoreProject>
+  </PropertyGroup>
+  <ItemGroup>
+    <ProjectReference Include="$(PKHeXCoreProject)" />
+  </ItemGroup>
+
+  <!-- PKHeX art (sprites, balls, box wallpapers) is copied beside the app and served under /pkhex. -->
+  <PropertyGroup>
+    <PKHeXRoot>$([System.IO.Path]::GetFullPath('$([System.IO.Path]::GetDirectoryName($(PKHeXCoreProject)))/..'))</PKHeXRoot>
+  </PropertyGroup>
+  <ItemGroup>
+    <PkhexSprite Include="$(PKHeXRoot)/PKHeX.Drawing.PokeSprite/Resources/img/Big Pokemon Sprites/*.png;$(PKHeXRoot)/PKHeX.Drawing.PokeSprite/Resources/img/Big Shiny Sprites/*.png" />
+    <PkhexBall Include="$(PKHeXRoot)/PKHeX.Drawing.PokeSprite/Resources/img/ball/*.png" />
+    <PkhexWallpaper Include="$(PKHeXRoot)/PKHeX.Drawing.Misc/Resources/img/box/*/box_wp*.png" />
+    <None Include="@(PkhexSprite)" Link="pkhex/sprites/%(Filename)%(Extension)" CopyToOutputDirectory="PreserveNewest" CopyToPublishDirectory="PreserveNewest" Visible="false" />
+    <None Include="@(PkhexBall)" Link="pkhex/balls/%(Filename)%(Extension)" CopyToOutputDirectory="PreserveNewest" CopyToPublishDirectory="PreserveNewest" Visible="false" />
+    <None Include="@(PkhexWallpaper)" Link="pkhex/wallpapers/%(Filename)%(Extension)" CopyToOutputDirectory="PreserveNewest" CopyToPublishDirectory="PreserveNewest" Visible="false" />
+  </ItemGroup>
+
+  <!-- Publish builds the Svelte web app (web/) and ships it as wwwroot/. Docker builds it in its own stage
+       and passes -p:SkipWebBuild=true. -->
+  <PropertyGroup>
+    <WebDir>$(MSBuildThisFileDirectory)../../web/</WebDir>
+  </PropertyGroup>
+  <Target Name="BuildWebApp" BeforeTargets="PrepareForPublish" Condition="'$(SkipWebBuild)' != 'true' And Exists('$(WebDir)package.json')">
+    <Exec Command="npm ci" WorkingDirectory="$(WebDir)" />
+    <Exec Command="npm run build" WorkingDirectory="$(WebDir)" />
+    <ItemGroup>
+      <WebDist Include="$(WebDir)dist/**/*" />
+      <ResolvedFileToPublish Include="@(WebDist)" RelativePath="wwwroot/%(RecursiveDir)%(Filename)%(Extension)" CopyToPublishDirectory="PreserveNewest" />
+    </ItemGroup>
+  </Target>
+
+</Project>
