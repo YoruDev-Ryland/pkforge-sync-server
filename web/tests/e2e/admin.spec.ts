@@ -22,6 +22,13 @@ test('someone who is not an admin sees no Server part', async ({ page }) => {
 });
 
 test.describe('as the admin', () => {
+  test('the Account page only scrolls its column, never the whole page', async ({ page }) => {
+    await page.setViewportSize({ width: 1708, height: 1275 });
+    await openAdmin(page);
+    const overflow = await page.evaluate(() => document.documentElement.scrollHeight - innerHeight);
+    expect(overflow).toBe(0);
+  });
+
   test.use({ permissions: ['clipboard-read', 'clipboard-write'] });
 
   test('adds a user, whose password is shown once, then resets it', async ({ page }) => {

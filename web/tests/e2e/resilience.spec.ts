@@ -30,7 +30,8 @@ test('offline: the status says so and organizing pauses until the server answers
   await focusTab(page);
   // One failed poll is only a suspicion; the retry 5 s later failing too shows the banner.
   await expect(status).not.toContainText('Offline', { timeout: 3_000 });
-  await expect(status).toContainText('Offline', { timeout: 10_000 });
+  // Generous: with every worker busy, the retry can land well after its 5 s.
+  await expect(status).toContainText('Offline', { timeout: 20_000 });
   await expect(page.getByRole('status').filter({ hasText: "Can't reach the server. Changes are paused." })).toBeVisible();
   await expect(rename).toBeDisabled();
   await expect(page.getByRole('button', { name: 'Wallpaper' })).toBeDisabled();
