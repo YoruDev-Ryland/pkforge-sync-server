@@ -1,9 +1,10 @@
 # Self-hosted PKForge Bank sync.
 #   docker compose up -d
 #   docker exec pkforge-sync list-users
+# To build from source instead of using the published image, replace the image line with: build: .
 services:
   pkforge-sync:
-    build: .
+    image: ghcr.io/yorudev-ryland/pkforge-sync-server:latest
     container_name: pkforge-sync
     restart: unless-stopped
     ports:

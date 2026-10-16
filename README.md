@@ -12,24 +12,20 @@ devices) are reported to the app, which asks you what to keep.
 
 ## Prerequisites
 
-- To run it: Docker with Compose.
+- To run it: Docker with Compose. Images are published for x64 and arm64 (such as a Raspberry Pi 4 or 5).
 - To build or work on it: the .NET 10 SDK and Node.js 24 (see [CONTRIBUTING.md](CONTRIBUTING.md)).
-
-PKHeX is included as a git submodule (`external/PKHeX`), so always clone with `--recurse-submodules`
-(or run `git submodule update --init` in an existing clone). The build fails without it.
 
 ## Run it
 
-1. Clone this repository with its submodule:
+1. Get the compose file in a folder of its own:
 
    ```sh
-   git clone --recurse-submodules https://github.com/YoruDev-Ryland/pkforge-sync-server.git
-   cd pkforge-sync-server
+   mkdir pkforge-sync && cd pkforge-sync
+   curl -LO https://raw.githubusercontent.com/YoruDev-Ryland/pkforge-sync-server/main/docker-compose.yml
    ```
 
-   In [docker-compose.yml](docker-compose.yml), set `PUBLIC_URL` to the address your devices use to reach
-   this machine, for example `http://<your-server-ip>:8080`. (Until a prebuilt image is published, Compose
-   builds it from the source here.)
+   In `docker-compose.yml`, set `PUBLIC_URL` to the address your devices use to reach this machine, for
+   example `http://<your-server-ip>:8080`.
 2. Start it:
 
    ```sh
@@ -45,6 +41,26 @@ PKHeX is included as a git submodule (`external/PKHeX`), so always clone with `-
 > (even with `ALLOW_REGISTRATION=false`) and becomes the admin. Create your own account (in the app, or with
 > `docker exec pkforge-sync create-user you@example.com --admin`) before the server is reachable by anyone
 > else.
+
+## Updating
+
+```sh
+docker compose pull && docker compose up -d
+```
+
+Your data stays in the `pkforge-sync-data` volume, and the database upgrades itself on start.
+
+## Build from source
+
+PKHeX is included as a git submodule (`external/PKHeX`), so clone with `--recurse-submodules` (or run
+`git submodule update --init` in an existing clone); the build fails without it.
+
+```sh
+git clone --recurse-submodules https://github.com/YoruDev-Ryland/pkforge-sync-server.git
+cd pkforge-sync-server
+```
+
+In `docker-compose.yml`, replace the `image:` line with `build: .`, then run `docker compose up -d --build`.
 
 ## Settings
 
